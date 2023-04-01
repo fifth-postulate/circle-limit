@@ -1,5 +1,6 @@
-module Construction exposing (Construction, definePoint, empty, view)
+module Construction exposing (Construction, Error, definePoint, empty, line, view)
 
+import Construction.Name as Name exposing (Name(..), Named)
 import Construction.Point as Point exposing (Point)
 import Html exposing (Html)
 
@@ -24,31 +25,36 @@ definePoint p (Construction model) =
     let
         name =
             model.steps
-                |> List.filter (Tuple.first >> isPoint)
+                |> List.filter (Tuple.first >> Name.isPoint)
                 |> List.length
                 |> (+) 1
                 |> Point
     in
-    Construction { model | steps = ( name, DefinePoint p ) :: model.steps }
+    Construction { model | steps = ( name, Define p ) :: model.steps }
 
 
-type alias Named a =
-    ( Name, a )
+line : Name -> Name -> Construction -> Result Error Construction
+line a b (Construction model) =
+    let
+        name =
+            model.steps
+                |> List.filter (Tuple.first >> Name.isLine)
+                |> List.length
+                |> (+) 1
+                |> Name.Line
+    in
+    -- TODO check if points are known
+    Construction { model | steps = ( name, Line a b ) :: model.steps }
+        |> Ok
 
 
-type Name
-    = Point Int
-
-
-isPoint : Name -> Bool
-isPoint name =
-    case name of
-        Point _ ->
-            True
+type Error
+    = UnknownPoint Name
 
 
 type ConstructionStep
-    = DefinePoint Point
+    = Define Point
+    | Line Name Name
 
 
 view : Construction -> Html msg
@@ -64,17 +70,10 @@ view (Construction model) =
 viewStep : Named ConstructionStep -> Html msg
 viewStep ( name, step ) =
     Html.span []
-        [ viewName name
+        [ Name.view name
         , viewSeparator
         , viewConstructionStep step
         ]
-
-
-viewName : Name -> Html msg
-viewName name =
-    case name of
-        Point index ->
-            Html.text <| "P" ++ String.fromInt index
 
 
 viewSeparator : Html msg
@@ -85,5 +84,19 @@ viewSeparator =
 viewConstructionStep : ConstructionStep -> Html msg
 viewConstructionStep step =
     case step of
-        DefinePoint p ->
+        Define p ->
             Point.view p
+
+        Line a b ->
+            viewLine a b
+
+
+viewLine : Name -> Name -> Html msg
+viewLine a b =
+    let
+        coordinates =
+            [ a, b ]
+                |> List.map Name.toString
+                |> String.join ","
+    in
+    Html.text <| "line(" ++ coordinates ++ ")"

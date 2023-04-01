@@ -1,7 +1,8 @@
 module PoincareDiskModel exposing (main)
 
 import Browser
-import Construction exposing (Construction, definePoint)
+import Construction exposing (Construction, definePoint, line)
+import Construction.Name exposing (Name(..))
 import Construction.Point exposing (point)
 import Html exposing (Html)
 
@@ -22,8 +23,15 @@ init _ =
             Construction.empty
                 |> definePoint (point 0 0)
                 |> definePoint (point 1 0)
+                |> try (line (Point 0) (Point 1))
     in
     ( { construction = construction }, Cmd.none )
+
+
+try : (a -> Result e a) -> a -> a
+try operation subject =
+    operation subject
+        |> Result.withDefault subject
 
 
 type alias Model =
