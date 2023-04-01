@@ -1,5 +1,5 @@
 # Circle Limit
-An [hyperbolic plane][wikipedia:hyperbolic-plane] exploration of [Functional Geometry][paper:functional-geometry].
+An [hyperbolic plane][wikipedia:hyperbolic-geometry] exploration of [Functional Geometry][paper:functional-geometry].
 
 ## Origin Story
 At [Booster Conf 2023][conference:booster.2023] [Einar W. Høst][twitter:einarwh] presented the workshop [_The Escher school of Fish_][github:einarwh.workshop].
@@ -14,9 +14,21 @@ I interjected that the ideas are still applicable, only that the underlying geom
 
 After a quick consultation, we agreed to challenge ourselves and try to apply Hendersons ideas and create a workshop to reproduce Circle Limit III. 
 
+## Goal
+The goal of this project is
+
+> A workshop where participants recreate Eschers Circle Limit III by applying the ideas of Functional Geometry to the hyperbolic plane.
+
+In goals of the workshop itself should include
+
+* **Having fun**: enjoying yourself is a great motivator and fascilitates creating an environment where learning is easier.
+* **Learning about Functional Geometry**: the ideas presented in Functional Geometry are more widely applicable then just for creating complex pictures. Understanding these concepts allow people to apply them in different scenarios.
+* **Exploring the hyperbolic plane**: [hyperbolic geometry][wikipedia:hyperbolic-geometry] is the lesser know cousin to [Euclidean geometry][wikipedia:euclidean-geometry]; the geometry of the plane, where lines and circles live. Exploring the similarities and difference of these geometries is a exciting oppertunity.
+
 [conference:booster.2023]: https://2023.boosterconf.no/
 [github:einarwh.workshop]: https://github.com/einarwh/escher-workshop-js
 [paper:functional-geometry]: https://eprints.soton.ac.uk/257577/1/funcgeo2.pdf
 [twitter:einarwh]: https://twitter.com/einarwh
 [wikipedia:circle-limit-III]: https://en.wikipedia.org/wiki/Circle_Limit_III
-[wikipedia:hyperbolic-plane]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
+[wikipedia:euclidean-geometry]: https://en.wikipedia.org/wiki/Euclidean_geometry
+[wikipedia:hyperbolic-geometry]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
