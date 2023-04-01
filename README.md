@@ -28,9 +28,13 @@ In goals of the workshop itself should include
 ## Explorations
 Although the goal is clear, the means to reach it as clear. Ideas, thoughts, explorations and experiments are needed before fleshing out the actual workshop.
 
+### TiddlyWiki
 In order to document these activities the [Circle Limit TiddlyWiki][documentation:tiddlywiki] is created. A [TiddlyWiki][tiddlywiki] is a
 
 > unique non-linear notebook for capturing, organising and sharing complex information.
+
+### Prototypes
+Code can be a vehicle of thought, so creating prototypes is a great way to better understand various aspects of hyperbolic geometry.
 
 [conference:booster.2023]: https://2023.boosterconf.no/
 [documentation:tiddlywiki]: https://fifth-postulate.nl/circle-limit/index.html
