@@ -9,7 +9,7 @@ type Construction
 
 
 type alias Model =
-    { steps : List ConstructionStep }
+    { steps : List (Named ConstructionStep) }
 
 
 empty : Construction
@@ -21,7 +21,30 @@ empty =
 
 definePoint : Point -> Construction -> Construction
 definePoint p (Construction model) =
-    Construction { model | steps = DefinePoint p :: model.steps }
+    let
+        name =
+            model.steps
+                |> List.filter (Tuple.first >> isPoint)
+                |> List.length
+                |> (+) 1
+                |> Point
+    in
+    Construction { model | steps = ( name, DefinePoint p ) :: model.steps }
+
+
+type alias Named a =
+    ( Name, a )
+
+
+type Name
+    = Point Int
+
+
+isPoint : Name -> Bool
+isPoint name =
+    case name of
+        Point _ ->
+            True
 
 
 type ConstructionStep
@@ -38,16 +61,29 @@ view (Construction model) =
     Html.ul [] <| List.map (viewStep >> wrap) model.steps
 
 
-viewStep : ConstructionStep -> Html msg
-viewStep step =
+viewStep : Named ConstructionStep -> Html msg
+viewStep ( name, step ) =
+    Html.span []
+        [ viewName name
+        , viewSeparator
+        , viewConstructionStep step
+        ]
+
+
+viewName : Name -> Html msg
+viewName name =
+    case name of
+        Point index ->
+            Html.text <| "P" ++ String.fromInt index
+
+
+viewSeparator : Html msg
+viewSeparator =
+    Html.text ": "
+
+
+viewConstructionStep : ConstructionStep -> Html msg
+viewConstructionStep step =
     case step of
         DefinePoint p ->
-            viewPoint p
-
-
-viewPoint : Point -> Html msg
-viewPoint point =
-    Html.span []
-        [ Html.text "define "
-        , Point.view point
-        ]
+            Point.view p
