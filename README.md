@@ -25,9 +25,18 @@ In goals of the workshop itself should include
 * **Learning about Functional Geometry**: the ideas presented in Functional Geometry are more widely applicable then just for creating complex pictures. Understanding these concepts allow people to apply them in different scenarios.
 * **Exploring the hyperbolic plane**: [hyperbolic geometry][wikipedia:hyperbolic-geometry] is the lesser know cousin to [Euclidean geometry][wikipedia:euclidean-geometry]; the geometry of the plane, where lines and circles live. Exploring the similarities and difference of these geometries is a exciting oppertunity.
 
+## Explorations
+Although the goal is clear, the means to reach it as clear. Ideas, thoughts, explorations and experiments are needed before fleshing out the actual workshop.
+
+In order to document these activities the [Circle Limit TiddlyWiki][documentation:tiddlywiki] is created. A [TiddlyWiki][tiddlywiki] is a
+
+> unique non-linear notebook for capturing, organising and sharing complex information.
+
 [conference:booster.2023]: https://2023.boosterconf.no/
+[documentation:tiddlywiki]: https://fifth-postulate.nl/circle-limit/index.html
 [github:einarwh.workshop]: https://github.com/einarwh/escher-workshop-js
 [paper:functional-geometry]: https://eprints.soton.ac.uk/257577/1/funcgeo2.pdf
+[tiddlywiki]: https://tiddlywiki.com/
 [twitter:einarwh]: https://twitter.com/einarwh
 [wikipedia:circle-limit-III]: https://en.wikipedia.org/wiki/Circle_Limit_III
 [wikipedia:euclidean-geometry]: https://en.wikipedia.org/wiki/Euclidean_geometry
