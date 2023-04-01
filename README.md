@@ -34,9 +34,10 @@ In order to document these activities the [Circle Limit TiddlyWiki][documentatio
 > unique non-linear notebook for capturing, organising and sharing complex information.
 
 ### Prototypes
-Code can be a vehicle of thought, so creating prototypes is a great way to better understand various aspects of hyperbolic geometry.
+Code can be a vehicle of thought, so creating [prototypes][directory:prototype] is a great way to better understand various aspects of hyperbolic geometry.
 
 [conference:booster.2023]: https://2023.boosterconf.no/
+[directory:protoype]: https://github.com/fifth-postulate/circle-limit/tree/main/prototype
 [documentation:tiddlywiki]: https://fifth-postulate.nl/circle-limit/index.html
 [github:einarwh.workshop]: https://github.com/einarwh/escher-workshop-js
 [paper:functional-geometry]: https://eprints.soton.ac.uk/257577/1/funcgeo2.pdf
