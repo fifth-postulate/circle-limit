@@ -36,6 +36,15 @@ In order to document these activities the [Circle Limit TiddlyWiki][documentatio
 ### Prototypes
 Code can be a vehicle of thought, so creating [prototypes][directory:prototype] is a great way to better understand various aspects of hyperbolic geometry.
 
+### Development
+We use Make to automate various tasks in this project. Run 
+
+```plain
+make
+```
+
+To kick things off.
+
 [conference:booster.2023]: https://2023.boosterconf.no/
 [directory:prototype]: https://github.com/fifth-postulate/circle-limit/tree/main/prototype
 [documentation:tiddlywiki]: https://fifth-postulate.nl/circle-limit/index.html

@@ -5,5 +5,9 @@ The [Poincare disk model][wikipedia:poincare-disk-model] of the hyperbolic geome
 
 In this prototype we will explore geometric constuctions in this model.
 
+## Development
+The prototype is developed with [Elm][language:elm].
+
+[language:elm]: https://elm-lang.org/
 [wikipedia:poincare-disk-model]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
 
