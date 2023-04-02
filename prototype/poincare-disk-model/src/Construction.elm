@@ -2,6 +2,7 @@ module Construction exposing (Construction, Error, definePoint, empty, line, vie
 
 import Construction.Name as Name exposing (Name(..), Named)
 import Construction.Point as Point exposing (Point)
+import Construction.Type as Type exposing (Type(..))
 import Html exposing (Html)
 
 
@@ -10,7 +11,7 @@ type Construction
 
 
 type alias Model =
-    { steps : List (Named ConstructionStep) }
+    { steps : List (Named Type Step) }
 
 
 empty : Construction
@@ -25,36 +26,74 @@ definePoint p (Construction model) =
     let
         name =
             model.steps
-                |> List.filter (Tuple.first >> Name.isPoint)
+                |> List.filter (Tuple.first >> Name.is Point)
                 |> List.length
                 |> (+) 1
-                |> Point
+                |> Name.name Point
     in
     Construction { model | steps = ( name, Define p ) :: model.steps }
 
 
-line : Name -> Name -> Construction -> Result Error Construction
-line a b (Construction model) =
+line : Name Type -> Name Type -> Construction -> Result Error Construction
+line a b ((Construction model) as construction) =
     let
         name =
             model.steps
-                |> List.filter (Tuple.first >> Name.isLine)
+                |> List.filter (Tuple.first >> Name.is Line)
                 |> List.length
                 |> (+) 1
-                |> Name.Line
+                |> Name.name Line
     in
-    -- TODO check if points are known
-    Construction { model | steps = ( name, Line a b ) :: model.steps }
-        |> Ok
+    case ( lookupPoint a construction, lookupPoint b construction ) of
+        ( Ok _, Ok _ ) ->
+            Construction { model | steps = ( name, LineThrough a b ) :: model.steps }
+                |> Ok
+
+        ( Err e, Ok _ ) ->
+            Err e
+
+        ( Ok _, Err e ) ->
+            Err e
+
+        ( Err e1, Err e2 ) ->
+            [ e1, e2 ]
+                |> Compound
+                |> Err
+
+
+lookupPoint : Name Type -> Construction -> Result Error Point.Point
+lookupPoint name ((Construction model) as construction) =
+    if Name.is Point name then
+        model.steps
+            |> List.filter (Tuple.first >> (==) name)
+            |> List.head
+            |> Maybe.andThen (Tuple.second >> toPoint construction)
+            |> Result.fromMaybe (UnknownPoint name)
+
+    else
+        NotAPoint name
+            |> Err
 
 
 type Error
-    = UnknownPoint Name
+    = NotAPoint (Name Type)
+    | UnknownPoint (Name Type)
+    | Compound (List Error)
 
 
-type ConstructionStep
+type Step
     = Define Point
-    | Line Name Name
+    | LineThrough (Name Type) (Name Type)
+
+
+toPoint : Construction -> Step -> Maybe Point
+toPoint _ step =
+    case step of
+        Define p ->
+            Just p
+
+        _ ->
+            Nothing
 
 
 view : Construction -> Html msg
@@ -64,15 +103,15 @@ view (Construction model) =
         wrap html =
             Html.li [] [ html ]
     in
-    Html.ul [] <| List.map (viewStep >> wrap) model.steps
+    Html.ul [] <| List.map (viewNamedStep >> wrap) model.steps
 
 
-viewStep : Named ConstructionStep -> Html msg
-viewStep ( name, step ) =
+viewNamedStep : Named Type Step -> Html msg
+viewNamedStep ( name, step ) =
     Html.span []
-        [ Name.view name
+        [ Name.view Type.toString name
         , viewSeparator
-        , viewConstructionStep step
+        , viewStep step
         ]
 
 
@@ -81,22 +120,22 @@ viewSeparator =
     Html.text ": "
 
 
-viewConstructionStep : ConstructionStep -> Html msg
-viewConstructionStep step =
+viewStep : Step -> Html msg
+viewStep step =
     case step of
         Define p ->
             Point.view p
 
-        Line a b ->
-            viewLine a b
+        LineThrough a b ->
+            viewLineThrough a b
 
 
-viewLine : Name -> Name -> Html msg
-viewLine a b =
+viewLineThrough : Name Type -> Name Type -> Html msg
+viewLineThrough a b =
     let
         coordinates =
             [ a, b ]
-                |> List.map Name.toString
+                |> List.map (Name.toString Type.toString)
                 |> String.join ","
     in
     Html.text <| "line(" ++ coordinates ++ ")"

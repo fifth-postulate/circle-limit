@@ -1,59 +1,31 @@
-module Construction.Name exposing (Name(..), Named, isLine, isPoint, toString, view)
+module Construction.Name exposing (Name, Named, is, name, toString, view)
 
 import Html exposing (Html)
 
 
-type alias Named a =
-    ( Name, a )
+type alias Named a b =
+    ( Name a, b )
 
 
-type Name
-    = Point Int
-    | Line Int
+type Name a
+    = Indexed a Int
 
 
-isPoint : Name -> Bool
-isPoint name =
-    case name of
-        Point _ ->
-            True
-
-        _ ->
-            False
+name : a -> Int -> Name a
+name =
+    Indexed
 
 
-isLine : Name -> Bool
-isLine name =
-    case name of
-        Line _ ->
-            True
-
-        _ ->
-            False
+is : a -> Name a -> Bool
+is target (Indexed actual _) =
+    target == actual
 
 
-toString : Name -> String
-toString name =
-    let
-        identifier =
-            case name of
-                Point _ ->
-                    "P"
-
-                Line _ ->
-                    "l"
-
-        index =
-            case name of
-                Point i ->
-                    i
-
-                Line i ->
-                    i
-    in
-    identifier ++ String.fromInt index
+toString : (a -> String) -> Name a -> String
+toString identifier (Indexed a index) =
+    identifier a ++ String.fromInt index
 
 
-view : Name -> Html msg
-view =
-    toString >> Html.text
+view : (a -> String) -> Name a -> Html msg
+view representation =
+    (toString representation) >> Html.text

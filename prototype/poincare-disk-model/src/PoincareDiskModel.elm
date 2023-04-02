@@ -2,8 +2,9 @@ module PoincareDiskModel exposing (main)
 
 import Browser
 import Construction exposing (Construction, definePoint, line)
-import Construction.Name exposing (Name(..))
+import Construction.Name exposing (Name(..), name)
 import Construction.Point exposing (point)
+import Construction.Type exposing (Type(..))
 import Html exposing (Html)
 
 
@@ -23,7 +24,7 @@ init _ =
             Construction.empty
                 |> definePoint (point 0 0)
                 |> definePoint (point 1 0)
-                |> try (line (Point 0) (Point 1))
+                |> try (line (name Point 1) (name Point 2))
     in
     ( { construction = construction }, Cmd.none )
 
