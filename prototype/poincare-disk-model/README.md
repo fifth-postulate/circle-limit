@@ -5,5 +5,5 @@ The [Poincare disk model][wikipedia:poincare-disk-model] of the hyperbolic geome
 
 In this prototype we will explore geometric constuctions in this model.
 
-[wikipedia:poincare-model]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
+[wikipedia:poincare-disk-model]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
 
