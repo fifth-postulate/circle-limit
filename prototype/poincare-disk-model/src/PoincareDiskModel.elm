@@ -5,13 +5,13 @@ import Construction exposing (Construction, definePoint, line)
 import Construction.Name exposing (Name(..), name)
 import Construction.Point exposing (point)
 import Construction.Type exposing (Type(..))
-import Html exposing (Html)
+import Html.Styled as Html exposing (Html)
 
 
 main =
     Browser.element
         { init = init
-        , view = view
+        , view = view >> Html.toUnstyled
         , update = update
         , subscriptions = subscriptions
         }
@@ -43,7 +43,9 @@ view : Model -> Html Msg
 view model =
     Html.section []
         [ Html.h1 [] [ Html.text "Geometric Constructions" ]
-        , Construction.view model.construction
+        , Html.div []
+            [ Construction.view model.construction
+            ]
         ]
 
 

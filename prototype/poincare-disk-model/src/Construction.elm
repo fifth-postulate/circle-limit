@@ -3,7 +3,9 @@ module Construction exposing (Construction, Error, definePoint, empty, line, vie
 import Construction.Name as Name exposing (Name(..), Named)
 import Construction.Point as Point exposing (Point)
 import Construction.Type as Type exposing (Type(..))
-import Html exposing (Html)
+import Css exposing (..)
+import Html.Styled as Html exposing (Html)
+import Html.Styled.Attributes as Attribute
 
 
 type Construction
@@ -103,7 +105,13 @@ view (Construction model) =
         wrap html =
             Html.li [] [ html ]
     in
-    Html.ul [] <| List.map (viewNamedStep >> wrap) model.steps
+    Html.ul
+        [ Attribute.css
+            [ width <| px 200
+            ]
+        ]
+    <|
+        List.map (viewNamedStep >> wrap) model.steps
 
 
 viewNamedStep : Named Type Step -> Html msg

@@ -1,6 +1,6 @@
 module Construction.Name exposing (Name, Named, is, name, toString, view)
 
-import Html exposing (Html)
+import Html.Styled as Html exposing (Html)
 
 
 type alias Named a b =
@@ -28,4 +28,4 @@ toString identifier (Indexed a index) =
 
 view : (a -> String) -> Name a -> Html msg
 view representation =
-    (toString representation) >> Html.text
+    toString representation >> Html.text
