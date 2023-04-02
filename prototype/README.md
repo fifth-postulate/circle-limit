@@ -1,5 +1,7 @@
 # Prototype
 To get a better understanding of the [hyperbolic geometry][wikipedia:hyperbolic-geometry] we will develop prototypes.
 
-[wikipedia:hyperbolic-geometry]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
+* [Poincare Disk Model][repository:prototype:poincare-disk-model]
 
+[repository:prototype:poincare-disk-model]: https://github.com/fifth-postulate/circle-limit/tree/main/prototype/poincare-disk-model
+[wikipedia:hyperbolic-geometry]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
