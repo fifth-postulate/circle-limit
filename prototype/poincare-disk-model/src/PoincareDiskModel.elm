@@ -5,7 +5,10 @@ import Construction exposing (Construction, definePoint, line)
 import Construction.Name exposing (Name(..), name)
 import Construction.Point exposing (point)
 import Construction.Type exposing (Type(..))
+import Css exposing (..)
+import Disk
 import Html.Styled as Html exposing (Html)
+import Html.Styled.Attributes as Attribute
 
 
 main =
@@ -43,8 +46,12 @@ view : Model -> Html Msg
 view model =
     Html.section []
         [ Html.h1 [] [ Html.text "Geometric Constructions" ]
-        , Html.div []
+        , Html.div
+            [ Attribute.css
+                [ displayFlex ]
+            ]
             [ Construction.view model.construction
+            , Disk.view <| Construction.toDisk model.construction
             ]
         ]
 

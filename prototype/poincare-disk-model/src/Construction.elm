@@ -1,9 +1,10 @@
-module Construction exposing (Construction, Error, definePoint, empty, line, view)
+module Construction exposing (Construction, Error, definePoint, empty, line, toDisk, view)
 
 import Construction.Name as Name exposing (Name(..), Named)
 import Construction.Point as Point exposing (Point)
 import Construction.Type as Type exposing (Type(..))
 import Css exposing (..)
+import Disk exposing (Disk)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes as Attribute
 
@@ -81,6 +82,17 @@ type Error
     = NotAPoint (Name Type)
     | UnknownPoint (Name Type)
     | Compound (List Error)
+
+
+toDisk : Construction -> Disk
+toDisk (Construction model) =
+    let
+        take step d =
+            case step of
+                _ ->
+                    d
+    in
+    List.foldl take Disk.empty model.step
 
 
 type Step
