@@ -87,12 +87,17 @@ type Error
 toDisk : Construction -> Disk
 toDisk (Construction model) =
     let
-        take step d =
+        take : Named Type Step -> Disk -> Disk
+        take ( _, step ) d =
             case step of
+                Define p ->
+                    Point.use (Disk.addPoint d) p
+
                 _ ->
                     d
     in
-    List.foldl take Disk.empty model.step
+    model.steps
+        |> List.foldl take Disk.empty
 
 
 type Step

@@ -1,4 +1,4 @@
-module Disk exposing (Disk, empty, view)
+module Disk exposing (Disk, addPoint, empty, view)
 
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes as Attribute exposing (..)
@@ -19,6 +19,15 @@ type Point
     = Point { x : Float, y : Float }
 
 
+addPoint : Disk -> Float -> Float -> Disk
+addPoint (Disk disk) x y =
+    let
+        p =
+            Point { x = x, y = y }
+    in
+    Disk { disk | points = p :: disk.points }
+
+
 view : Disk -> Svg msg
 view (Disk model) =
     let
@@ -31,9 +40,15 @@ view (Disk model) =
         , Attribute.viewBox <| viewBox epsilon
         ]
         [ limitCircle
-        , Svg.g [ strokeWidth "0.01" ]
-            []
+        , Svg.g [ strokeWidth "0.01" ] <| List.map viewPoint model.points
         ]
+
+
+viewBox : Float -> String
+viewBox epsilon =
+    [ -1 - epsilon, -1 - epsilon, 2 + 2 * epsilon, 2 + 2 * epsilon ]
+        |> List.map String.fromFloat
+        |> String.join " "
 
 
 limitCircle : Svg msg
@@ -49,8 +64,15 @@ limitCircle =
         []
 
 
-viewBox : Float -> String
-viewBox epsilon =
-    [ -1 - epsilon, -1 - epsilon, 2 + 2 * epsilon, 2 + 2 * epsilon ]
-        |> List.map String.fromFloat
-        |> String.join " "
+viewPoint : Point -> Svg msg
+viewPoint (Point { x, y }) =
+    let
+        centerX =
+            x
+                |> String.fromFloat
+
+        centerY =
+            y
+                |> String.fromFloat
+    in
+    Svg.circle [ cx centerX, cy centerY, r "0.01" ] []

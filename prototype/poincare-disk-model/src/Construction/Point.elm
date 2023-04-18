@@ -1,4 +1,4 @@
-module Construction.Point exposing (Point, point, view)
+module Construction.Point exposing (Point, point, use, view)
 
 import Html.Styled as Html exposing (Html)
 
@@ -10,6 +10,11 @@ type Point
 point : Float -> Float -> Point
 point x y =
     Point { x = x, y = y }
+
+
+use : (Float -> Float -> a) -> Point -> a
+use f (Point { x, y }) =
+    f x y
 
 
 view : Point -> Html msg
