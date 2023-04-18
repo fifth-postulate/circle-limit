@@ -1,22 +1,25 @@
-module Disk exposing (Disk, empty, view)
+module Disk exposing (Disk, addTriangle, empty, view)
 
+import Disk.Point as Point exposing (Point)
+import Disk.Triangle as Triangle exposing (Triangle)
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes as Attribute exposing (..)
 
 
 type Disk
     = Disk
-        { points : List Point
+        { triangles : List Triangle
         }
 
 
 empty : Disk
 empty =
-    Disk { points = [] }
+    Disk { triangles = [] }
 
 
-type Point
-    = Point { x : Float, y : Float }
+addTriangle : Triangle -> Disk -> Disk
+addTriangle t (Disk { triangles }) =
+    Disk { triangles = t :: triangles }
 
 
 view : Disk -> Svg msg
@@ -30,8 +33,8 @@ view (Disk model) =
         , height "640"
         , Attribute.viewBox <| viewBox epsilon
         ]
-        [ limitCircle
-        , Svg.g [ strokeWidth "0.01" ] <| List.map viewPoint model.points
+        [ viewLimitCircle
+        , viewTriangles model.triangles
         ]
 
 
@@ -42,8 +45,8 @@ viewBox epsilon =
         |> String.join " "
 
 
-limitCircle : Svg msg
-limitCircle =
+viewLimitCircle : Svg msg
+viewLimitCircle =
     Svg.circle
         [ cx "0"
         , cy "0"
@@ -55,15 +58,6 @@ limitCircle =
         []
 
 
-viewPoint : Point -> Svg msg
-viewPoint (Point { x, y }) =
-    let
-        centerX =
-            x
-                |> String.fromFloat
-
-        centerY =
-            y
-                |> String.fromFloat
-    in
-    Svg.circle [ cx centerX, cy centerY, r "0.01" ] []
+viewTriangles : List Triangle -> Svg msg
+viewTriangles ts =
+    Svg.g [ strokeWidth "0.01" ] <| List.map Triangle.view ts

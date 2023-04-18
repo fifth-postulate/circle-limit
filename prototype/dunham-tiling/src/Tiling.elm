@@ -3,6 +3,8 @@ module Tiling exposing (main)
 import Browser
 import Css exposing (..)
 import Disk exposing (Disk)
+import Disk.Point exposing (point)
+import Disk.Triangle exposing (triangle)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes as Attribute
 
@@ -19,11 +21,14 @@ main =
 init : () -> ( Model, Cmd Msg )
 init _ =
     let
+        fundamental =
+            triangle (point 0 0) (point 0.25 0) (point 0.25 0.1) 
+
         disk =
             Disk.empty
+                |> Disk.addTriangle fundamental
     in
     ( { disk = disk }, Cmd.none )
-
 
 
 type alias Model =
