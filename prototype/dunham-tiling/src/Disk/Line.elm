@@ -3,22 +3,36 @@ module Disk.Line exposing (Line, segment, view)
 import Disk.Point as Point exposing (Point)
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes exposing (..)
-
-
-epsilon : Float
-epsilon =
-    0.00000001
+import Tolerance
 
 
 type Line
     = Segment { a : Point, b : Point }
+    | Arc { a : Point, b : Point }
     | Degenerate Point
 
 
 segment : Point -> Point -> Line
 segment a b =
-    if not <| Point.similar epsilon a b then
-        Segment { a = a, b = b }
+    if not <| Point.similar a b then
+        let
+            ( ax, ay ) =
+                Point.use Tuple.pair a
+
+            ( bx, by ) =
+                Point.use Tuple.pair b
+
+            ls =
+                lineEquation (bx - ax) (by - ay)
+
+            onLine p =
+                isOn p ls
+        in
+        if onLine a || onLine b then
+            Segment { a = a, b = b }
+
+        else
+            Arc { a = a, b = b }
 
     else
         Degenerate a
@@ -34,31 +48,31 @@ view aLine =
 
                 ( bx, by ) =
                     Point.use Tuple.pair b
-
-                ls =
-                    lineEquation (bx - ax) (by - ay)
-
-                onLine p =
-                    isOn epsilon p ls
             in
-            if onLine a || onLine b then
-                Svg.line
-                    [ x1 <| String.fromFloat ax
-                    , y1 <| String.fromFloat ay
-                    , x2 <| String.fromFloat bx
-                    , y2 <| String.fromFloat by
-                    ]
-                    []
+            Svg.line
+                [ x1 <| String.fromFloat ax
+                , y1 <| String.fromFloat ay
+                , x2 <| String.fromFloat bx
+                , y2 <| String.fromFloat by
+                ]
+                []
 
-            else
-                Svg.line
-                    [ x1 <| String.fromFloat ax
-                    , y1 <| String.fromFloat ay
-                    , x2 <| String.fromFloat bx
-                    , y2 <| String.fromFloat by
-                    , stroke "red"
-                    ]
-                    []
+        Arc { a, b } ->
+            let
+                ( ax, ay ) =
+                    Point.use Tuple.pair a
+
+                ( bx, by ) =
+                    Point.use Tuple.pair b
+            in
+            Svg.line
+                [ x1 <| String.fromFloat ax
+                , y1 <| String.fromFloat ay
+                , x2 <| String.fromFloat bx
+                , y2 <| String.fromFloat by
+                , stroke "red"
+                ]
+                []
 
         Degenerate p ->
             Point.view p
@@ -75,10 +89,10 @@ lineEquation dx dy =
     { dx = dx, dy = dy }
 
 
-isOn : Float -> Point -> LineEquation -> Bool
-isOn tolerance p { dx, dy } =
+isOn : Point -> LineEquation -> Bool
+isOn p { dx, dy } =
     let
         isOnLine x y =
-            tolerance >= (abs <| -dy * x + dx * y)
+            Tolerance.epsilon >= (abs <| -dy * x + dx * y)
     in
     Point.use isOnLine p

@@ -27,22 +27,20 @@ view (Disk model) =
     let
         epsilon =
             0.005
+
+        viewBox =
+            [ -1 - epsilon, -1 - epsilon, 2 + 2 * epsilon, 2 + 2 * epsilon ]
+                |> List.map String.fromFloat
+                |> String.join " "
     in
     Svg.svg
         [ width "640"
         , height "640"
-        , Attribute.viewBox <| viewBox epsilon
+        , Attribute.viewBox viewBox
         ]
         [ viewLimitCircle
         , viewTriangles model.triangles
         ]
-
-
-viewBox : Float -> String
-viewBox epsilon =
-    [ -1 - epsilon, -1 - epsilon, 2 + 2 * epsilon, 2 + 2 * epsilon ]
-        |> List.map String.fromFloat
-        |> String.join " "
 
 
 viewLimitCircle : Svg msg

@@ -3,6 +3,7 @@ module Disk.Point exposing (Point, inversion, point, similar, use, view)
 import Html exposing (p)
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes exposing (..)
+import Tolerance
 
 
 type Point
@@ -19,14 +20,14 @@ use f (Point { x, y }) =
     f x y
 
 
-similar : Float -> Point -> Point -> Bool
-similar tolerance a b =
+similar : Point -> Point -> Bool
+similar a b =
     let
         d =
             difference a b
                 |> norm
     in
-    d < tolerance
+    d < Tolerance.epsilon
 
 
 difference : Point -> Point -> Point
