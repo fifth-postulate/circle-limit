@@ -42,40 +42,50 @@ view : Line -> Svg msg
 view aLine =
     case aLine of
         Segment { a, b } ->
-            let
-                ( ax, ay ) =
-                    Point.use Tuple.pair a
-
-                ( bx, by ) =
-                    Point.use Tuple.pair b
-            in
-            Svg.line
-                [ x1 <| String.fromFloat ax
-                , y1 <| String.fromFloat ay
-                , x2 <| String.fromFloat bx
-                , y2 <| String.fromFloat by
-                ]
-                []
+            viewSegment a b
 
         Arc { a, b } ->
-            let
-                ( ax, ay ) =
-                    Point.use Tuple.pair a
-
-                ( bx, by ) =
-                    Point.use Tuple.pair b
-            in
-            Svg.line
-                [ x1 <| String.fromFloat ax
-                , y1 <| String.fromFloat ay
-                , x2 <| String.fromFloat bx
-                , y2 <| String.fromFloat by
-                , stroke "red"
-                ]
-                []
+            viewArc a b
 
         Degenerate p ->
             Point.view p
+
+
+viewSegment : Point -> Point -> Svg msg
+viewSegment a b =
+    let
+        ( ax, ay ) =
+            Point.use Tuple.pair a
+
+        ( bx, by ) =
+            Point.use Tuple.pair b
+    in
+    Svg.line
+        [ x1 <| String.fromFloat ax
+        , y1 <| String.fromFloat ay
+        , x2 <| String.fromFloat bx
+        , y2 <| String.fromFloat by
+        ]
+        []
+
+
+viewArc : Point -> Point -> Svg msg
+viewArc a b =
+    let
+        ( ax, ay ) =
+            Point.use Tuple.pair a
+
+        ( bx, by ) =
+            Point.use Tuple.pair b
+    in
+    Svg.line
+        [ x1 <| String.fromFloat ax
+        , y1 <| String.fromFloat ay
+        , x2 <| String.fromFloat bx
+        , y2 <| String.fromFloat by
+        , stroke "red"
+        ]
+        []
 
 
 type alias LineEquation =
