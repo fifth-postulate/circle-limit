@@ -1,4 +1,4 @@
-module Disk.Point exposing (Point, point, use, view)
+module Disk.Point exposing (Point, point, similar, use, view)
 
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes exposing (..)
@@ -16,6 +16,11 @@ point x y =
 use : (Float -> Float -> a) -> Point -> a
 use f (Point { x, y }) =
     f x y
+
+
+similar : Float -> Point -> Point -> Bool
+similar tolerance a b =
+    False
 
 
 view : Point -> Svg msg

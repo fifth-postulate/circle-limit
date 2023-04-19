@@ -22,7 +22,7 @@ init : () -> ( Model, Cmd Msg )
 init _ =
     let
         fundamental =
-            triangle (point 0 0) (point 0.25 0) (point 0.25 0.1) 
+            triangle (point 0 0) (point 0.25 0) (point 0.25 0.1)
 
         disk =
             Disk.empty
