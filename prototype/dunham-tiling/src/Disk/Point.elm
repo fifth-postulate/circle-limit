@@ -1,5 +1,6 @@
-module Disk.Point exposing (Point, point, similar, use, view)
+module Disk.Point exposing (Point, inversion, point, similar, use, view)
 
+import Html exposing (p)
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes exposing (..)
 
@@ -20,7 +21,31 @@ use f (Point { x, y }) =
 
 similar : Float -> Point -> Point -> Bool
 similar tolerance a b =
-    False
+    let
+        d =
+            difference a b
+                |> norm
+    in
+    d < tolerance
+
+
+difference : Point -> Point -> Point
+difference (Point a) (Point b) =
+    point (b.x - a.x) (b.y - a.y)
+
+
+norm : Point -> Float
+norm (Point { x, y }) =
+    sqrt (x ^ 2 + y ^ 2)
+
+
+inversion : Point -> Point
+inversion ((Point { x, y }) as p) =
+    let
+        d =
+            norm p
+    in
+    point (x / d) (y / d)
 
 
 view : Point -> Svg msg
