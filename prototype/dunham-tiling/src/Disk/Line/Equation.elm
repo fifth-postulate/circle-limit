@@ -1,6 +1,7 @@
-module Disk.Line.Equation exposing (Equation, on, throughOrigin)
+module Disk.Line.Equation exposing (Equation, equation, intersection, on, throughOrigin)
 
 import Disk.Point as Point exposing (Point, point)
+import Matrix exposing (matrix)
 import Tolerance
 
 
@@ -28,3 +29,20 @@ on q (Line { dx, dy, p }) =
             Tolerance.epsilon >= (abs <| -dy * x + dx * y)
     in
     Point.use isOnLine z
+
+
+intersection : Equation -> Equation -> Point
+intersection (Line u) (Line v) =
+    let
+        ( ux, uy ) =
+            Point.use Tuple.pair u.p
+
+        ( vx, vy ) =
+            Point.use Tuple.pair v.p
+
+        ( t, s ) =
+            matrix u.dx -v.dx u.dy -v.dy
+                |> Matrix.inverse
+                |> Matrix.apply ( vx - ux, vy - uy )
+    in
+    point (ux + t * u.dx) (uy + t * u.dy)

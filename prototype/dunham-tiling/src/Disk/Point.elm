@@ -1,4 +1,4 @@
-module Disk.Point exposing (Point, difference, inversion, point, similar, use, view)
+module Disk.Point exposing (Point, difference, inversion, norm, point, scale, similar, sum, use, view)
 
 import Html exposing (p)
 import Svg.Styled as Svg exposing (Svg)
@@ -35,18 +35,28 @@ difference (Point a) (Point b) =
     point (b.x - a.x) (b.y - a.y)
 
 
+sum : Point -> Point -> Point
+sum (Point a) (Point b) =
+    point (a.x + b.x) (a.y + b.y)
+
+
+scale : Float -> Point -> Point
+scale f (Point { x, y }) =
+    point (f * x) (f * y)
+
+
 norm : Point -> Float
 norm (Point { x, y }) =
     sqrt (x ^ 2 + y ^ 2)
 
 
 inversion : Point -> Point
-inversion ((Point { x, y }) as p) =
+inversion p =
     let
         d =
             norm p
     in
-    point (x / d) (y / d)
+    scale (1 / d ^ 2) p
 
 
 view : Point -> Svg msg

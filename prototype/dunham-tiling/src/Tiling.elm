@@ -6,7 +6,6 @@ import Disk exposing (Disk)
 import Disk.Point exposing (point)
 import Disk.Triangle exposing (triangle)
 import Html.Styled as Html exposing (Html)
-import Html.Styled.Attributes as Attribute
 
 
 main =

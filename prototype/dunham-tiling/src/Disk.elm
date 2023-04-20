@@ -1,6 +1,5 @@
 module Disk exposing (Disk, addTriangle, empty, view)
 
-import Disk.Point as Point exposing (Point)
 import Disk.Triangle as Triangle exposing (Triangle)
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes as Attribute exposing (..)
