@@ -17,7 +17,7 @@ triangle a b c =
 
 view : Triangle -> Svg msg
 view (Triangle { a, b, c }) =
-    Svg.g []
-        [ Svg.g [ stroke "black", strokeWidth "0.001" ] <| List.map Line.view [ segment a b, segment b c, segment c a ]
+    Svg.g [ stroke "gray", strokeWidth "0.005"]
+        [ Svg.g [] <| List.map Line.view [ segment a b, segment b c, segment c a ]
         , Svg.g [] <| List.map Point.view [ a, b, c ]
         ]

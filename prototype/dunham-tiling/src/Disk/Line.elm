@@ -1,5 +1,7 @@
 module Disk.Line exposing (Line, segment, view)
 
+import Disk.Line.Arc as Arc
+import Disk.Line.Segment as Segment
 import Disk.Point as Point exposing (Point)
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes exposing (..)
@@ -42,50 +44,13 @@ view : Line -> Svg msg
 view aLine =
     case aLine of
         Segment { a, b } ->
-            viewSegment a b
+            Segment.view a b
 
         Arc { a, b } ->
-            viewArc a b
+            Arc.view a b
 
         Degenerate p ->
             Point.view p
-
-
-viewSegment : Point -> Point -> Svg msg
-viewSegment a b =
-    let
-        ( ax, ay ) =
-            Point.use Tuple.pair a
-
-        ( bx, by ) =
-            Point.use Tuple.pair b
-    in
-    Svg.line
-        [ x1 <| String.fromFloat ax
-        , y1 <| String.fromFloat ay
-        , x2 <| String.fromFloat bx
-        , y2 <| String.fromFloat by
-        ]
-        []
-
-
-viewArc : Point -> Point -> Svg msg
-viewArc a b =
-    let
-        ( ax, ay ) =
-            Point.use Tuple.pair a
-
-        ( bx, by ) =
-            Point.use Tuple.pair b
-    in
-    Svg.line
-        [ x1 <| String.fromFloat ax
-        , y1 <| String.fromFloat ay
-        , x2 <| String.fromFloat bx
-        , y2 <| String.fromFloat by
-        , stroke "red"
-        ]
-        []
 
 
 type alias LineEquation =
