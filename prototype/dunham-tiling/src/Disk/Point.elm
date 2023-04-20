@@ -1,4 +1,4 @@
-module Disk.Point exposing (Point, inversion, point, similar, use, view)
+module Disk.Point exposing (Point, difference, inversion, point, similar, use, view)
 
 import Html exposing (p)
 import Svg.Styled as Svg exposing (Svg)

@@ -1,11 +1,11 @@
 module Disk.Line exposing (Line, segment, view)
 
 import Disk.Line.Arc as Arc
+import Disk.Line.Equation as Equation
 import Disk.Line.Segment as Segment
 import Disk.Point as Point exposing (Point)
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes exposing (..)
-import Tolerance
 
 
 type Line
@@ -24,11 +24,11 @@ segment a b =
             ( bx, by ) =
                 Point.use Tuple.pair b
 
-            ls =
-                lineEquation (bx - ax) (by - ay)
+            equation =
+                Equation.throughOrigin (bx - ax) (by - ay)
 
             onLine p =
-                isOn p ls
+                Equation.on p equation
         in
         if onLine a || onLine b then
             Segment { a = a, b = b }
@@ -51,23 +51,3 @@ view aLine =
 
         Degenerate p ->
             Point.view p
-
-
-type alias LineEquation =
-    { dx : Float
-    , dy : Float
-    }
-
-
-lineEquation : Float -> Float -> LineEquation
-lineEquation dx dy =
-    { dx = dx, dy = dy }
-
-
-isOn : Point -> LineEquation -> Bool
-isOn p { dx, dy } =
-    let
-        isOnLine x y =
-            Tolerance.epsilon >= (abs <| -dy * x + dx * y)
-    in
-    Point.use isOnLine p
