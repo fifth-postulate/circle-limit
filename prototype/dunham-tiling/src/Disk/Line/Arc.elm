@@ -21,9 +21,6 @@ view a b =
         o =
             Equation.intersection ab ac
 
-        ( centerX, centerY ) =
-            Point.use Tuple.pair o
-
         radius =
             Point.norm <| Point.difference a o
 
@@ -33,22 +30,11 @@ view a b =
             ]
                 |> toString
     in
-    Svg.g []
-        [ Svg.circle
-            [ cx <| String.fromFloat centerX
-            , cy <| String.fromFloat centerY
-            , r <| String.fromFloat radius
-            , fill "none"
-            , stroke "red"
-            ]
-            []
-        , Svg.path
-            [ stroke "blue"
-            , fill "none"
-            , d pathDescription
-            ]
-            []
+    Svg.path
+        [ fill "none"
+        , d pathDescription
         ]
+        []
 
 
 midpoint : Point -> Point -> Point
