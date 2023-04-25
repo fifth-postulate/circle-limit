@@ -1,4 +1,4 @@
-module Disk.Point exposing (Point, difference, inversion, norm, point, scale, similar, sum, use, view)
+module Disk.Point exposing (Point, difference, norm, point, scale, similar, sum, use, view)
 
 import Html exposing (p)
 import Svg.Styled as Svg exposing (Svg)
@@ -48,15 +48,6 @@ scale f (Point { x, y }) =
 norm : Point -> Float
 norm (Point { x, y }) =
     sqrt (x ^ 2 + y ^ 2)
-
-
-inversion : Point -> Point
-inversion p =
-    let
-        d =
-            norm p
-    in
-    scale (1 / d ^ 2) p
 
 
 view : Point -> Svg msg

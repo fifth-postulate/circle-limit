@@ -1,5 +1,6 @@
 module Disk.Line.Arc exposing (view)
 
+import Disk.Circle as Circle
 import Disk.Line.Equation as Equation exposing (Equation, equation)
 import Disk.Point as Point exposing (Point)
 import Svg.Styled as Svg exposing (Svg)
@@ -10,7 +11,7 @@ view : Point -> Point -> Svg msg
 view a b =
     let
         c =
-            Point.inversion a
+            Circle.inversion Circle.unit a
 
         ab =
             bisector a b
