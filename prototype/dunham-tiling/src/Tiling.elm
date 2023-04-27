@@ -3,8 +3,9 @@ module Tiling exposing (main)
 import Browser
 import Css exposing (..)
 import Disk exposing (Disk)
+import Disk.Line exposing (segment)
 import Disk.Point exposing (Point, point)
-import Disk.Triangle exposing (triangle)
+import Disk.Triangle as Triangle exposing (triangle)
 import Html.Styled as Html exposing (Html)
 
 
@@ -20,9 +21,6 @@ main =
 init : () -> ( Model, Cmd Msg )
 init _ =
     let
-        o =
-            point 0 0
-
         r =
             0.5
 
@@ -32,20 +30,34 @@ init _ =
         angle =
             2 * pi / toFloat n
 
-        toPoint a =
-            circlePoint r <| angle * toFloat a
+        toPoint index =
+            circlePoint r <| angle * toFloat index
 
-        toTriangle ( a, b ) =
+        o =
+            point 0 0
+
+        a =
+            toPoint 0
+
+        b =
+            toPoint 1
+
+        t =
             triangle o a b
 
-        triangles =
-            List.range 0 n
-                |> List.map (\i -> ( i, i + 1 ))
-                |> List.map (Tuple.mapBoth toPoint toPoint)
-                |> List.map toTriangle
+        oa =
+            Triangle.inversion (segment o a)
+
+        ab =
+            Triangle.inversion (segment a b)
+
+        ob =
+            Triangle.inversion (segment o b)
 
         disk =
-            List.foldl Disk.addTriangle Disk.empty triangles
+            [ identity, oa, ob, oa >> ob, oa >> ob >> oa, ob >> oa ]
+                |> List.map (\f -> f t)
+                |> List.foldl Disk.addTriangle Disk.empty
     in
     ( { disk = disk }, Cmd.none )
 

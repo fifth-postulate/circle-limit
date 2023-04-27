@@ -1,6 +1,6 @@
-module Disk.Triangle exposing (Triangle, triangle, view)
+module Disk.Triangle exposing (Triangle, inversion, triangle, view)
 
-import Disk.Line as Line exposing (segment)
+import Disk.Line as Line exposing (Line, segment)
 import Disk.Point as Point exposing (Point)
 import Svg.Styled as Svg exposing (Svg)
 import Svg.Styled.Attributes exposing (..)
@@ -13,6 +13,15 @@ type Triangle
 triangle : Point -> Point -> Point -> Triangle
 triangle a b c =
     Triangle { a = a, b = b, c = c }
+
+
+inversion : Line -> Triangle -> Triangle
+inversion line (Triangle { a, b, c }) =
+    let
+        t p =
+            Line.inversion line p
+    in
+    triangle (t a) (t c) (t b)
 
 
 view : Triangle -> Svg msg

@@ -32,7 +32,7 @@ similar a b =
 
 difference : Point -> Point -> Point
 difference (Point a) (Point b) =
-    point (b.x - a.x) (b.y - a.y)
+    point (a.x - b.x) (a.y - b.y)
 
 
 sum : Point -> Point -> Point

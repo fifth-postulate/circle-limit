@@ -27,8 +27,11 @@ view (Disk model) =
         epsilon =
             0.005
 
+        w =
+            2
+
         viewBox =
-            [ -1 - epsilon, -1 - epsilon, 2 + 2 * epsilon, 2 + 2 * epsilon ]
+            [ -(w / 2) - epsilon, -(w / 2) - epsilon, w + 2 * epsilon, w + 2 * epsilon ]
                 |> List.map String.fromFloat
                 |> String.join " "
     in

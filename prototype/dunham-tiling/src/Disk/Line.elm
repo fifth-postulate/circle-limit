@@ -1,5 +1,6 @@
-module Disk.Line exposing (Line, segment, view)
+module Disk.Line exposing (Line, inversion, segment, view)
 
+import Disk.Circle as Circle
 import Disk.Line.Arc as Arc
 import Disk.Line.Equation as Equation
 import Disk.Line.Segment as Segment
@@ -38,6 +39,40 @@ segment a b =
 
     else
         Degenerate a
+
+
+inversion : Line -> Point -> Point
+inversion line p =
+    case line of
+        Segment { a, b } ->
+            let
+                equation =
+                    Equation.through a b
+            in
+            Equation.inversion equation p
+
+        Arc { a, b } ->
+            let
+                circle =
+                    Circle.through a b
+            in
+            Circle.inversion circle p
+
+        Degenerate a ->
+            Point.difference p a
+                |> Point.use (curry <| Tuple.mapBoth negate negate)
+                |> uncurry Point.point
+                |> Point.sum a
+
+
+uncurry : (a -> b -> c) -> ( a, b ) -> c
+uncurry f ( a, b ) =
+    f a b
+
+
+curry : (( a, b ) -> c) -> a -> b -> c
+curry f a b =
+    f ( a, b )
 
 
 view : Line -> Svg msg
