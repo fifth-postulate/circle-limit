@@ -55,7 +55,22 @@ init _ =
             Triangle.inversion (segment o b)
 
         disk =
-            [ identity, oa, ob, oa >> ob, oa >> ob >> oa, ob >> oa ]
+            [ identity
+            , oa
+            , ab
+            , ob
+            , oa >> ob
+            , ob >> oa
+            , ab >> ob
+            , ab >> oa
+            , ab >> oa
+            , oa >> ob >> oa
+            , ab >> ob >> oa
+            , ab >> oa >> ob
+            , ab >> oa >> ob >> oa
+            , ob >> ab
+            , ob >> ab >> oa
+            ]
                 |> List.map (\f -> f t)
                 |> List.foldl Disk.addTriangle Disk.empty
     in
