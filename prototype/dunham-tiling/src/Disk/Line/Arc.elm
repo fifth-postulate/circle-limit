@@ -22,12 +22,31 @@ view a b =
         o =
             Equation.intersection ab ac
 
+        angle_a =
+            Point.difference a o
+                |> Point.use toAngle
+
+        angle_b =
+            Point.difference b o
+                |> Point.use toAngle
+
+        flag =
+            case compare angle_a angle_b of
+                LT ->
+                    CounterClockWise
+
+                EQ ->
+                    CounterClockWise
+
+                GT ->
+                    ClockWise
+
         radius =
             Point.norm <| Point.difference a o
 
         pathDescription =
             [ Point.use Moveto a
-            , Point.use (Arc radius) b
+            , Point.use (Arc radius) b flag
             ]
                 |> toString
     in
@@ -36,6 +55,11 @@ view a b =
         , d pathDescription
         ]
         []
+
+
+toAngle : Float -> Float -> Float
+toAngle x y =
+    atan2 y x
 
 
 midpoint : Point -> Point -> Point
@@ -59,7 +83,22 @@ type alias Path =
 
 type PathElement
     = Moveto Float Float
-    | Arc Float Float Float
+    | Arc Float Float Float SweepFlag
+
+
+type SweepFlag
+    = ClockWise
+    | CounterClockWise
+
+
+sweepFlag : SweepFlag -> Float
+sweepFlag flag =
+    case flag of
+        ClockWise ->
+            0
+
+        CounterClockWise ->
+            1
 
 
 toString : Path -> String
@@ -70,8 +109,8 @@ toString ps =
                 Moveto x y ->
                     "M" ++ (String.join "," <| List.map String.fromFloat [ x, y ])
 
-                Arc radius x y ->
-                    "A" ++ (String.join " " <| List.map String.fromFloat [ radius, radius, 0, 0, 0, x, y ])
+                Arc radius x y flag ->
+                    "A" ++ (String.join " " <| List.map String.fromFloat [ radius, radius, 0, 0, sweepFlag flag, x, y ])
     in
     ps
         |> List.map toS
