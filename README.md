@@ -36,6 +36,8 @@ In order to document these activities the [Circle Limit TiddlyWiki][documentatio
 ### Prototypes
 Code can be a vehicle of thought, so creating [prototypes][directory:prototype] is a great way to better understand various aspects of hyperbolic geometry.
 
+![Prototype of Hyperbolic Tiling](https://fifth-postulate/circle-limit/image/dunham-tiling.2023-05-04.svg)
+
 ### Development
 We use Make to automate various tasks in this project. Run 
 
