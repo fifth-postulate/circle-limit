@@ -55,7 +55,7 @@ determineFlag : Float -> Float -> SweepFlag
 determineFlag a b =
     let
         angle =
-            normalize_angle (b - a)
+            normalize (b - a)
     in
     case compare angle pi of
         LT ->
@@ -68,13 +68,13 @@ determineFlag a b =
             ClockWise
 
 
-normalize_angle : Float -> Float
-normalize_angle angle =
+normalize : Float -> Float
+normalize angle =
     if angle < 0 then
-        normalize_angle (angle + 2 * pi)
+        normalize (angle + 2 * pi)
 
     else if angle > 2 * pi then
-        normalize_angle (angle - 2 * pi)
+        normalize (angle - 2 * pi)
 
     else
         angle

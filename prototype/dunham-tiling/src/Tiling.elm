@@ -55,20 +55,62 @@ init _ =
             Triangle.inversion (segment o b)
 
         disk =
-            [ identity
-            , ab
+            [ -- first corona
+              identity
             , ob
+            , oa
             , oa >> ob
             , ob >> oa
+            , ob >> oa >> ob
+
+            -- oa >> ob >> oa
+            -- second corona
+            , ab
             , ab >> ob
             , ab >> oa
-            , ab >> oa
-            , oa >> ob >> oa
-            , ab >> ob >> oa
             , ab >> oa >> ob
-            , ab >> oa >> ob >> oa
+            , ab >> ob >> oa
+            , ab >> ob >> oa >> ob
+
+            -- third corona
             , ob >> ab
+            , oa >> ab
+            , ob >> ab >> ob
+            , oa >> ab >> ob
             , ob >> ab >> oa
+            , oa >> ab >> oa
+            , ob >> ab >> oa >> ob
+            , oa >> ab >> oa >> ob
+            , ob >> ab >> ob >> oa
+            , oa >> ab >> ob >> oa
+            , ob >> ab >> ob >> oa >> ob
+            , oa >> ab >> ob >> oa >> ob
+
+            -- fourth corona
+            , oa >> ob >> ab
+            , ab >> ob >> ab
+            , ob >> oa >> ab
+            , ab >> oa >> ab
+            , oa >> ob >> ab >> ob
+            , ab >> ob >> ab >> ob
+            , ob >> oa >> ab >> ob
+            , ab >> oa >> ab >> ob
+            , oa >> ob >> ab >> oa
+            , ab >> ob >> ab >> oa
+            , ob >> oa >> ab >> oa
+            , ab >> oa >> ab >> oa
+            , oa >> ob >> ab >> oa >> ob
+            , ab >> ob >> ab >> oa >> ob
+            , ob >> oa >> ab >> oa >> ob
+            , ab >> oa >> ab >> oa >> ob
+            , oa >> ob >> ab >> ob >> oa
+            , ab >> ob >> ab >> ob >> oa
+            , ob >> oa >> ab >> ob >> oa
+            , ab >> oa >> ab >> ob >> oa
+            , oa >> ob >> ab >> ob >> oa >> ob
+            , ab >> ob >> ab >> ob >> oa >> ob
+            , ob >> oa >> ab >> ob >> oa >> ob
+            , ab >> oa >> ab >> ob >> oa >> ob
             ]
                 |> List.map (\f -> f t)
                 |> List.foldl Disk.addTriangle Disk.empty
