@@ -56,7 +56,6 @@ init _ =
 
         disk =
             [ identity
-            , oa
             , ab
             , ob
             , oa >> ob

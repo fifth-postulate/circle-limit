@@ -30,23 +30,12 @@ view a b =
             Point.difference b o
                 |> Point.use toAngle
 
-        flag =
-            case compare angle_a angle_b of
-                LT ->
-                    CounterClockWise
-
-                EQ ->
-                    CounterClockWise
-
-                GT ->
-                    ClockWise
-
         radius =
             Point.norm <| Point.difference a o
 
         pathDescription =
             [ Point.use Moveto a
-            , Point.use (Arc radius) b flag
+            , Point.use (Arc radius) b <| determineFlag angle_a angle_b
             ]
                 |> toString
     in
@@ -60,6 +49,35 @@ view a b =
 toAngle : Float -> Float -> Float
 toAngle x y =
     atan2 y x
+
+
+determineFlag : Float -> Float -> SweepFlag
+determineFlag a b =
+    let
+        angle =
+            normalize_angle (b - a)
+    in
+    case compare angle pi of
+        LT ->
+            CounterClockWise
+
+        EQ ->
+            CounterClockWise
+
+        GT ->
+            ClockWise
+
+
+normalize_angle : Float -> Float
+normalize_angle angle =
+    if angle < 0 then
+        normalize_angle (angle + 2 * pi)
+
+    else if angle > 2 * pi then
+        normalize_angle (angle - 2 * pi)
+
+    else
+        angle
 
 
 midpoint : Point -> Point -> Point
