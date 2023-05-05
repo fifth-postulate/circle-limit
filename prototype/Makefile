@@ -1,4 +1,4 @@
-SUB_DIRECTORIES=poincare-disk-model dunham-tiling
+SUB_DIRECTORIES=poincare-disk-model dunham-tiling presentation
 
 .PHONY: all ${SUB_DIRECTORIES}
 
