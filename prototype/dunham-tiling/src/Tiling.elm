@@ -21,14 +21,32 @@ main =
 init : () -> ( Model, Cmd Msg )
 init _ =
     let
-        r =
-            0.5185
-
         n =
+            4
+
+        k =
             6
 
+        angleA =
+            pi / n
+
+        angleB =
+            pi / 7
+
+        angleC =
+            pi / 2
+
+        sinA =
+            sin angleA
+
+        sinB =
+            sin angleB
+
+        r =
+            sin (angleC - angleA - angleB) / sqrt (1 - sinA * sinA - sinB * sinB)
+
         angle =
-            2 * pi / toFloat n
+            2 * angleA
 
         toPoint index =
             circlePoint r <| angle * toFloat index
