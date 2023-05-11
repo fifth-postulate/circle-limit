@@ -51,7 +51,7 @@ type Argument
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { n = "5", k = "4" }, Cmd.none )
+    ( { n = "9", k = "5" }, Cmd.none )
 
 
 view : Model -> Html Msg

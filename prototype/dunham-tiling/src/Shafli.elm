@@ -4,6 +4,7 @@ import Disk exposing (Disk)
 import Disk.Line exposing (segment)
 import Disk.Point exposing (Point, point)
 import Disk.Triangle as Triangle exposing (triangle)
+import Enumeration.Naive as Naive
 
 
 type Shafli
@@ -72,63 +73,7 @@ toDisk (Shafli { n, k }) =
             Triangle.inversion (segment o b)
 
         transformations =
-            [ -- first corona
-              identity
-            , ob
-            , oa
-            , oa >> ob
-            , ob >> oa
-            , ob >> oa >> ob
-
-            -- oa >> ob >> oa
-            -- second corona
-            , ab
-            , ab >> ob
-            , ab >> oa
-            , ab >> oa >> ob
-            , ab >> ob >> oa
-            , ab >> ob >> oa >> ob
-
-            -- third corona
-            , ob >> ab
-            , oa >> ab
-            , ob >> ab >> ob
-            , oa >> ab >> ob
-            , ob >> ab >> oa
-            , oa >> ab >> oa
-            , ob >> ab >> oa >> ob
-            , oa >> ab >> oa >> ob
-            , ob >> ab >> ob >> oa
-            , oa >> ab >> ob >> oa
-            , ob >> ab >> ob >> oa >> ob
-            , oa >> ab >> ob >> oa >> ob
-
-            -- fourth corona
-            , oa >> ob >> ab
-            , ab >> ob >> ab
-            , ob >> oa >> ab
-            , ab >> oa >> ab
-            , oa >> ob >> ab >> ob
-            , ab >> ob >> ab >> ob
-            , ob >> oa >> ab >> ob
-            , ab >> oa >> ab >> ob
-            , oa >> ob >> ab >> oa
-            , ab >> ob >> ab >> oa
-            , ob >> oa >> ab >> oa
-            , ab >> oa >> ab >> oa
-            , oa >> ob >> ab >> oa >> ob
-            , ab >> ob >> ab >> oa >> ob
-            , ob >> oa >> ab >> oa >> ob
-            , ab >> oa >> ab >> oa >> ob
-            , oa >> ob >> ab >> ob >> oa
-            , ab >> ob >> ab >> ob >> oa
-            , ob >> oa >> ab >> ob >> oa
-            , ab >> oa >> ab >> ob >> oa
-            , oa >> ob >> ab >> ob >> oa >> ob
-            , ab >> ob >> ab >> ob >> oa >> ob
-            , ob >> oa >> ab >> ob >> oa >> ob
-            , ab >> oa >> ab >> ob >> oa >> ob
-            ]
+            Naive.generatedBy 6 [ oa, ab, ob ]
     in
     transformations
         |> List.map (\f -> f t)
