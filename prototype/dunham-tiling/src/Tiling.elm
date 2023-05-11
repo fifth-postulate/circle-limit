@@ -22,7 +22,7 @@ init : () -> ( Model, Cmd Msg )
 init _ =
     let
         r =
-            0.5
+            0.5185
 
         n =
             6
