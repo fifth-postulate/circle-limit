@@ -18,20 +18,28 @@ main =
         }
 
 
+type alias Model =
+    { n : Int, k : Int }
+
+
 init : () -> ( Model, Cmd Msg )
 init _ =
+    ( { n = 4, k = 6 }, Cmd.none )
+
+
+circlePoint : Float -> Float -> Point
+circlePoint radius angle =
+    point (radius * cos angle) (radius * sin angle)
+
+
+toDisk : Model -> Disk
+toDisk { n, k } =
     let
-        n =
-            4
-
-        k =
-            6
-
         angleA =
-            pi / n
+            pi / toFloat n
 
         angleB =
-            pi / 7
+            pi / toFloat k
 
         angleC =
             pi / 2
@@ -72,7 +80,7 @@ init _ =
         ob =
             Triangle.inversion (segment o b)
 
-        disk =
+        transformations =
             [ -- first corona
               identity
             , ob
@@ -130,26 +138,21 @@ init _ =
             , ob >> oa >> ab >> ob >> oa >> ob
             , ab >> oa >> ab >> ob >> oa >> ob
             ]
-                |> List.map (\f -> f t)
-                |> List.foldl Disk.addTriangle Disk.empty
     in
-    ( { disk = disk }, Cmd.none )
-
-
-circlePoint : Float -> Float -> Point
-circlePoint radius angle =
-    point (radius * cos angle) (radius * sin angle)
-
-
-type alias Model =
-    { disk : Disk }
+    transformations
+        |> List.map (\f -> f t)
+        |> List.foldl Disk.addTriangle Disk.empty
 
 
 view : Model -> Html Msg
 view model =
+    let
+        disk =
+            toDisk model
+    in
     Html.section []
         [ Html.h1 [] [ Html.text "Hyperbolic Tiling" ]
-        , Disk.view model.disk
+        , Disk.view disk
         ]
 
 
