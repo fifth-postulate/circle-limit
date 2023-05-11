@@ -7,6 +7,8 @@ import Disk.Line exposing (segment)
 import Disk.Point exposing (Point, point)
 import Disk.Triangle as Triangle exposing (triangle)
 import Html.Styled as Html exposing (Html)
+import Html.Styled.Attributes as Attribute
+import Html.Styled.Events as Event
 
 
 main =
@@ -19,12 +21,26 @@ main =
 
 
 type alias Model =
+    { n : String, k : String }
+
+
+type alias Shafli =
     { n : Int, k : Int }
+
+
+toShafli : Model -> Maybe Shafli
+toShafli { n, k } =
+    case ( String.toInt n, String.toInt k ) of
+        ( Just d, Just a ) ->
+            Just { n = d, k = a }
+
+        _ ->
+            Nothing
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { n = 4, k = 6 }, Cmd.none )
+    ( { n = "5", k = "4" }, Cmd.none )
 
 
 circlePoint : Float -> Float -> Point
@@ -32,7 +48,7 @@ circlePoint radius angle =
     point (radius * cos angle) (radius * sin angle)
 
 
-toDisk : Model -> Disk
+toDisk : Shafli -> Disk
 toDisk { n, k } =
     let
         angleA =
@@ -146,25 +162,51 @@ toDisk { n, k } =
 
 view : Model -> Html Msg
 view model =
-    let
-        disk =
-            toDisk model
-    in
     Html.section []
         [ Html.h1 [] [ Html.text "Hyperbolic Tiling" ]
-        , Disk.view disk
+        , viewControls model
+        , viewShafli model
         ]
 
 
+viewControls : Model -> Html Msg
+viewControls { n, k } =
+    Html.div []
+        [ Html.span [ Attribute.for "n" ] [ Html.text "n:" ]
+        , Html.input [ Attribute.type_ "text", Attribute.value n, Event.onInput UpdateN ] []
+        , Html.span [ Attribute.for "k" ] [ Html.text "k:" ]
+        , Html.input [ Attribute.id "k", Attribute.type_ "text", Attribute.value k, Event.onInput UpdateK ] []
+        ]
+
+
+viewShafli : Model -> Html msg
+viewShafli model =
+    case toShafli model of
+        Just shafli ->
+            Disk.view <| toDisk shafli
+
+        Nothing ->
+            viewProblem
+
+
+viewProblem : Html msg
+viewProblem =
+    Html.p [] [ Html.text "Could not create a tiling" ]
+
+
 type Msg
-    = Nothing
+    = UpdateN String
+    | UpdateK String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Nothing ->
-            ( model, Cmd.none )
+        UpdateN n ->
+            ( { model | n = n }, Cmd.none )
+
+        UpdateK k ->
+            ( { model | k = k }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
