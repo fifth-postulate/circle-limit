@@ -10,9 +10,17 @@ type Shafli
     = Shafli { n : Int, k : Int }
 
 
-shafli : Int -> Int -> Shafli
+shafli : Int -> Int -> Maybe Shafli
 shafli n k =
-    Shafli { n = n, k = k }
+    let
+        angleDeficiency =
+            (1 / toFloat n) + (1 / toFloat k)
+    in
+    if angleDeficiency < 0.5 then
+        Just <| Shafli { n = n, k = k }
+
+    else
+        Nothing
 
 
 toDisk : Shafli -> Disk

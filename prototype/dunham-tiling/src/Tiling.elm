@@ -2,10 +2,7 @@ module Tiling exposing (main)
 
 import Browser
 import Css exposing (..)
-import Disk exposing (Disk)
-import Disk.Line exposing (segment)
-import Disk.Point exposing (Point, point)
-import Disk.Triangle as Triangle exposing (triangle)
+import Disk
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes as Attribute
 import Html.Styled.Events as Event
@@ -25,14 +22,31 @@ type alias Model =
     { n : String, k : String }
 
 
-toShafli : Model -> Maybe Shafli
+toShafli : Model -> Result Error Shafli
 toShafli { n, k } =
     case ( String.toInt n, String.toInt k ) of
         ( Just d, Just a ) ->
-            Just <| shafli d a
+            shafli d a
+                |> Result.fromMaybe NotHyperbolic
 
-        _ ->
-            Nothing
+        ( Nothing, Just _ ) ->
+            Err <| NotInteger [ ( N, n ) ]
+
+        ( Just _, Nothing ) ->
+            Err <| NotInteger [ ( K, k ) ]
+
+        ( Nothing, Nothing ) ->
+            Err <| NotInteger [ ( N, n ), ( K, k ) ]
+
+
+type Error
+    = NotInteger (List ( Argument, String ))
+    | NotHyperbolic
+
+
+type Argument
+    = N
+    | K
 
 
 init : () -> ( Model, Cmd Msg )
@@ -62,16 +76,33 @@ viewControls { n, k } =
 viewShafli : Model -> Html msg
 viewShafli model =
     case toShafli model of
-        Just shafli ->
+        Ok shafli ->
             Disk.view <| Shafli.toDisk shafli
 
-        Nothing ->
-            viewProblem
+        Err error ->
+            viewProblem error
 
 
-viewProblem : Html msg
-viewProblem =
-    Html.p [] [ Html.text "Could not create a tiling" ]
+viewProblem : Error -> Html msg
+viewProblem error =
+    let
+        toDescription ( argument, _ ) =
+            case argument of
+                N ->
+                    "n"
+
+                K ->
+                    "k"
+
+        description =
+            case error of
+                NotInteger problems ->
+                    "not integer: " ++ (String.join ", " <| List.map toDescription problems)
+
+                NotHyperbolic ->
+                    "not hyperbolic"
+    in
+    Html.p [] [ Html.text <| "Could not create a tiling: " ++ description ]
 
 
 type Msg
