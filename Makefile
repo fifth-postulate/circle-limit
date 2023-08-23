@@ -6,7 +6,7 @@ CLEAN_TARGETS=$(addsuffix clean,$(SUB_DIRECTORIES))
 
 .PHONY: all clean ${SUB_DIRECTORIES} ${CLEAN_TARGETS}
 
-all: ${ARCHIVE} ${WEBPAGE_DIR}
+all: ${ARCHIVE} ${WEBPAGE_DIR} docs/workshop
 ${ARCHIVE}: ${MATERIAL_DIR} 
 	tar cvfz $@ $<
 
@@ -28,8 +28,12 @@ ${WEBPAGE_DIR}: ${MATERIAL_DIR} ${ARCHIVE}
 	cp -rf $</presentation $@/presentation
 	cp resources/public/* $@/
 
+docs/workshop: ${WEBPAGE_DIR}
+	mkdir -p $@
+	cp -rf $</* $@
+
 clean: ${CLEAN_TARGETS}
-	rm -rf ${ARCHIVE} ${MATERIAL_DIR} ${WEBPAGE_DIR}
+	rm -rf ${ARCHIVE} ${MATERIAL_DIR} ${WEBPAGE_DIR} docs/workshop
 
 %clean: %
 	${MAKE} -C $< clean
