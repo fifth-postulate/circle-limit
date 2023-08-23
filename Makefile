@@ -1,12 +1,35 @@
-SUB_DIRECTORIES=prototype
+ARCHIVE=workshop-material.tar.gz
+MATERIAL_DIR=circle-limit-workshop
+WEBPAGE_DIR=public
+SUB_DIRECTORIES=workshop resources prototype
+CLEAN_TARGETS=$(addsuffix clean,$(SUB_DIRECTORIES))
 
-.PHONY: all ${SUB_DIRECTORIES}
+.PHONY: all clean ${SUB_DIRECTORIES} ${CLEAN_TARGETS}
 
+all: ${ARCHIVE} ${WEBPAGE_DIR}
+${ARCHIVE}: ${MATERIAL_DIR} 
+	tar cvfz $@ $<
 
-all: ${SUB_DIRECTORIES}
-	@echo finished
-	@echo $<
+${MATERIAL_DIR}: ${SUB_DIRECTORIES} ${REFERENCE}
+	mkdir -p $@
+	cp -rf resources/material/* $@/
+	cp -rf workshop/guide/book $@/guide
+	mkdir -p $@/example
+	cp -rf workshop/example/* $@/example
+	cp -rf presentation $@/presentation
 
 ${SUB_DIRECTORIES}:
 	${MAKE} -C $@
 
+${WEBPAGE_DIR}: ${MATERIAL_DIR} ${ARCHIVE}
+	mkdir -p $@
+	echo "<meta http-equiv=refresh content=0;url=guide/index.html>" > $@/index.html
+	cp -rf $</guide $@/guide
+	cp -rf $</presentation $@/presentation
+	cp resources/public/* $@/
+
+clean: ${CLEAN_TARGETS}
+	rm -rf ${ARCHIVE} ${MATERIAL_DIR} ${WEBPAGE_DIR}
+
+%clean: %
+	${MAKE} -C $< clean
