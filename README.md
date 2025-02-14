@@ -2,7 +2,7 @@
 An [hyperbolic plane][wikipedia:hyperbolic-geometry] exploration of [Functional Geometry][paper:functional-geometry].
 
 ## Origin Story
-At [Booster Conf 2023][conference:booster.2023] [Einar W. Høst][twitter:einarwh] presented the workshop [_The Escher school of Fish_][github:einarwh.workshop].
+At [Booster Conf 2023][conference:booster.2023] [Einar W. Høst][bluesky:einarwh] presented the workshop [_The Escher school of Fish_][github:einarwh.workshop].
 
 This workshop presents the ideas of Peter Hendersons [revised 2002 paper][paper:functional-geometry] _Functional Geometry_ by guiding participants through a JavaScript implementation.
 
@@ -53,7 +53,7 @@ To kick things off.
 [github:einarwh.workshop]: https://github.com/einarwh/escher-workshop-js
 [paper:functional-geometry]: https://eprints.soton.ac.uk/257577/1/funcgeo2.pdf
 [tiddlywiki]: https://tiddlywiki.com/
-[twitter:einarwh]: https://twitter.com/einarwh
+[bluesky:einarwh]: https://bsky.app/profile/einarwh.bsky.social
 [wikipedia:circle-limit-III]: https://en.wikipedia.org/wiki/Circle_Limit_III
 [wikipedia:euclidean-geometry]: https://en.wikipedia.org/wiki/Euclidean_geometry
 [wikipedia:hyperbolic-geometry]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
