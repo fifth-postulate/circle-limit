@@ -26,7 +26,7 @@ In goals of the workshop itself should include
 * **Exploring the hyperbolic plane**: [hyperbolic geometry][wikipedia:hyperbolic-geometry] is the lesser know cousin to [Euclidean geometry][wikipedia:euclidean-geometry]; the geometry of the plane, where lines and circles live. Exploring the similarities and difference of these geometries is a exciting oppertunity.
 
 ## Explorations
-Although the goal is clear, the means to reach it as clear. Ideas, thoughts, explorations and experiments are needed before fleshing out the actual workshop.
+Although the goal is clear, the means to reach it aren't as clear. Ideas, thoughts, explorations and experiments are needed before fleshing out the actual workshop.
 
 ### TiddlyWiki
 In order to document these activities the [Circle Limit TiddlyWiki][documentation:tiddlywiki] is created. A [TiddlyWiki][tiddlywiki] is a
